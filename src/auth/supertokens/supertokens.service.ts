@@ -90,10 +90,10 @@ export class SupertokensService {
 
                   if (response.status === 'OK') {
                     if (response.createdNewUser) {
-                      console.log({ response: response.user.thirdParty });
+                      const nickname = response.user.email?.split('@')[0];
                       await prisma.user.create({
                         data: {
-                          nickname: response.user.email,
+                          nickname,
                           email: response.user.email,
                           id: response.user.id,
                           provider: response.user.thirdParty.id,

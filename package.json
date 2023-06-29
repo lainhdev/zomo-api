@@ -28,6 +28,8 @@
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/swagger": "^7.0.2",
     "@prisma/client": "^4.15.0",
+    "agora-access-token": "^2.0.4",
+    "nanoid": "^3.3.6",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "supertokens-node": "^14.1.1"

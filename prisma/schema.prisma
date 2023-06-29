@@ -11,11 +11,43 @@ datasource db {
 }
 
 model User {
-  id       String  @unique
-  email    String
-  nickname String?
-  picture  String? @default("/avatar/man-1.png")
-  provider String  @default("emailpassword")
+  id              String            @unique
+  email           String
+  nickname        String?
+  picture         String?           @default("/avatar/man-1.png")
+  provider        String            @default("emailpassword")
+  favoriteContact FavoriteContact[] @relation(name: "favoriteContact")
+  author          FavoriteContact[] @relation(name: "createdBy")
+  MeetingCreated  Meeting[]
+  Meetings        MeetingsOnUsers[]
 
   @@unique([email, provider])
+}
+
+model FavoriteContact {
+  id        String @unique() @default(uuid())
+  createdBy User?  @relation(name: "createdBy", fields: [authorId], references: [id])
+  authorId  String
+  contact   User   @relation(name: "favoriteContact", fields: [userId], references: [id])
+  userId    String
+}
+
+model Meeting {
+  id           String            @unique()
+  topic        String
+  start        String
+  end          String
+  createdBy    User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  waitingRoom  Boolean
+  participants MeetingsOnUsers[]
+}
+
+model MeetingsOnUsers {
+  meeting       Meeting @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  meetingId     String
+  participant   User    @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  participantId String
+
+  @@id([meetingId, participantId])
 }
